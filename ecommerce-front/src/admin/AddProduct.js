@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { isAuthenticated } from '../auth';
 import { createProduct, getCategories } from './apiAdmin';
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
 
 const AddProduct = () => {
     const [values, setValues] = useState({
@@ -33,6 +35,13 @@ const AddProduct = () => {
         formData
     } = values;
 
+    const schema = yup.object().shape({
+        name: yup.string().required(),
+        description: yup.string().required(),
+        price: yup.number().positive().required(),
+        quantity: yup.number().positive().required()
+      });
+       
     // load categories and set form data
     const init = () => {
         getCategories().then(data => {
@@ -80,8 +89,12 @@ const AddProduct = () => {
         });
     };
 
+    const { register, handleSubmit, errors } = useForm({
+        validationSchema: schema
+      });
+
     const newPostForm = () => (
-        <form className="mb-3" onSubmit={clickSubmit}>
+        <form className="mb-3" onSubmit={handleSubmit(clickSubmit)}>
             <h4>Post Photo</h4>
             <div className="form-group">
                 <label className="btn btn-secondary">
@@ -91,17 +104,20 @@ const AddProduct = () => {
 
             <div className="form-group">
                 <label className="text-muted">Name</label>
-                <input onChange={handleChange('name')} type="text" className="form-control" value={name} />
+                <input onChange={handleChange('name')} type="text" className="form-control" value={name} ref={register} />
+                {errors.name}
             </div>
 
             <div className="form-group">
                 <label className="text-muted">Description</label>
-                <textarea onChange={handleChange('description')} className="form-control" value={description} />
+                <textarea onChange={handleChange('description')} className="form-control" value={description} ref={register} />
+                {errors.description}
             </div>
 
             <div className="form-group">
                 <label className="text-muted">Price</label>
-                <input onChange={handleChange('price')} type="number" className="form-control" value={price} />
+                <input onChange={handleChange('price')} type="number" className="form-control" value={price}  ref={register} />
+                {errors.price} 
             </div>
 
             <div className="form-group">
@@ -128,7 +144,8 @@ const AddProduct = () => {
 
             <div className="form-group">
                 <label className="text-muted">Quantity</label>
-                <input onChange={handleChange('quantity')} type="number" className="form-control" value={quantity} />
+                <input onChange={handleChange('quantity')} type="number" className="form-control" value={quantity} ref={register} />
+                {errors.quantity}
             </div>
 
             <button className="btn btn-outline-primary">Create Product</button>
