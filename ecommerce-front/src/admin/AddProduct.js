@@ -68,7 +68,7 @@ const AddProduct = () => {
     };
 
     const clickSubmit = event => {
-        event.preventDefault();
+        // event.preventDefault();
         setValues({ ...values, error: '', loading: true });
 
         createProduct(user._id, token, formData).then(data => {
@@ -104,21 +104,21 @@ const AddProduct = () => {
 
             <div className="form-group">
                 <label className="text-muted">Name</label>
-                <input onChange={handleChange('name')} type="text" className="form-control" value={name} ref={register} />
-                {errors.name}
+                <input onChange={handleChange('name')} type="text" name="name" className="form-control" value={name} ref={register} />
             </div>
+            {errors.name && errors.name.message}
 
             <div className="form-group">
                 <label className="text-muted">Description</label>
-                <textarea onChange={handleChange('description')} className="form-control" value={description} ref={register} />
-                {errors.description}
+                <textarea onChange={handleChange('description')} className="form-control" name="description" value={description} ref={register} />
             </div>
+            {errors.description && errors.description.message }
 
             <div className="form-group">
                 <label className="text-muted">Price</label>
-                <input onChange={handleChange('price')} type="number" className="form-control" value={price}  ref={register} />
-                {errors.price} 
+                <input onChange={handleChange('price')} type="number" className="form-control" name="price" value={price}  ref={register} /> 
             </div>
+            {errors.price && errors.price.message }
 
             <div className="form-group">
                 <label className="text-muted">Category</label>
@@ -144,9 +144,9 @@ const AddProduct = () => {
 
             <div className="form-group">
                 <label className="text-muted">Quantity</label>
-                <input onChange={handleChange('quantity')} type="number" className="form-control" value={quantity} ref={register} />
-                {errors.quantity}
+                <input onChange={handleChange('quantity')} type="number" className="form-control" name="quantity" value={quantity} ref={register} />
             </div>
+            {errors.quantity && errors.quantity.message }
 
             <button className="btn btn-outline-primary">Create Product</button>
         </form>
