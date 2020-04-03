@@ -63,8 +63,7 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
         // send the nonce to your server
         // nonce = data.instance.requestPaymentMethod()
         let nonce;
-        let getNonce = data.instance
-            .requestPaymentMethod()
+        let getNonce = data.instance.requestPaymentMethod()
             .then(data => {
                 // console.log(data);
                 nonce = data.nonce;
