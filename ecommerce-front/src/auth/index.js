@@ -17,8 +17,7 @@ export const signup = user => {
         });
 };
 
-export const signin = user => { 
-    console.log('user',user);
+export const signin = user => {
     return fetch(`${API}/signin`, {
         method: 'POST',
         headers: {

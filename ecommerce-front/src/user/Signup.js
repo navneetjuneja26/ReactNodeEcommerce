@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../core/Layout';
 import { signup } from '../auth';
-import {Animated} from "react-animated-css";
-
 
 const Signup = () => {
     const [values, setValues] = useState({
@@ -55,11 +53,9 @@ const Signup = () => {
                 <label className="text-muted">Password</label>
                 <input onChange={handleChange('password')} type="password" className="form-control" value={password} />
             </div>
-            <Animated animationIn="fadeInLeft" animationOut="fadeOut" isVisible={true}>
             <button onClick={clickSubmit} className="btn btn-primary">
                 Submit
             </button>
-            </Animated>
         </form>
     );
 
@@ -83,9 +79,7 @@ const Signup = () => {
         >
             {showSuccess()}
             {showError()}
-            <Animated animationIn="fadeInDown" animationOut="fadeOut" isVisible={true}>
-               {signUpForm()}
-            </Animated>
+            {signUpForm()}
         </Layout>
     );
 };

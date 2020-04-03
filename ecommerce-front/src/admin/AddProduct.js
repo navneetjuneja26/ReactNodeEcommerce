@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { isAuthenticated } from '../auth';
+import { Link } from 'react-router-dom';
 import { createProduct, getCategories } from './apiAdmin';
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
 
 const AddProduct = () => {
     const [values, setValues] = useState({
@@ -28,20 +27,16 @@ const AddProduct = () => {
         description,
         price,
         categories,
+        category,
+        shipping,
         quantity,
         loading,
         error,
         createdProduct,
+        redirectToProfile,
         formData
     } = values;
 
-    const schema = yup.object().shape({
-        name: yup.string().required(),
-        description: yup.string().required(),
-        price: yup.number().positive().required(),
-        quantity: yup.number().positive().required()
-      });
-       
     // load categories and set form data
     const init = () => {
         getCategories().then(data => {
@@ -68,7 +63,7 @@ const AddProduct = () => {
     };
 
     const clickSubmit = event => {
-        // event.preventDefault();
+        event.preventDefault();
         setValues({ ...values, error: '', loading: true });
 
         createProduct(user._id, token, formData).then(data => {
@@ -89,12 +84,8 @@ const AddProduct = () => {
         });
     };
 
-    const { register, handleSubmit, errors } = useForm({
-        validationSchema: schema
-      });
-
     const newPostForm = () => (
-        <form className="mb-3" onSubmit={handleSubmit(clickSubmit)}>
+        <form className="mb-3" onSubmit={clickSubmit}>
             <h4>Post Photo</h4>
             <div className="form-group">
                 <label className="btn btn-secondary">
@@ -104,20 +95,17 @@ const AddProduct = () => {
 
             <div className="form-group">
                 <label className="text-muted">Name</label>
-                <input onChange={handleChange('name')} type="text" name="name" className="form-control" value={name} ref={register} />
-                {errors.name && errors.name.message}  
+                <input onChange={handleChange('name')} type="text" className="form-control" value={name} />
             </div>
 
             <div className="form-group">
                 <label className="text-muted">Description</label>
-                <textarea onChange={handleChange('description')} className="form-control" name="description" value={description} ref={register} />
-                {errors.description && errors.description.message }
+                <textarea onChange={handleChange('description')} className="form-control" value={description} />
             </div>
 
             <div className="form-group">
                 <label className="text-muted">Price</label>
-                <input onChange={handleChange('price')} type="number" className="form-control" name="price" value={price}  ref={register} /> 
-                {errors.price && errors.price.message }
+                <input onChange={handleChange('price')} type="number" className="form-control" value={price} />
             </div>
 
             <div className="form-group">
@@ -144,8 +132,7 @@ const AddProduct = () => {
 
             <div className="form-group">
                 <label className="text-muted">Quantity</label>
-                <input onChange={handleChange('quantity')} type="number" className="form-control" name="quantity" value={quantity} ref={register} />
-                {errors.quantity && errors.quantity.message }
+                <input onChange={handleChange('quantity')} type="number" className="form-control" value={quantity} />
             </div>
 
             <button className="btn btn-outline-primary">Create Product</button>

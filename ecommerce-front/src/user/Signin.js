@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import Layout from "../core/Layout";
 import { signin, authenticate, isAuthenticated } from "../auth";
-import {Animated} from "react-animated-css";
 
 const Signin = () => {
     const [values, setValues] = useState({
@@ -58,11 +57,9 @@ const Signin = () => {
                     value={password}
                 />
             </div>
-            <Animated animationIn="fadeInLeft" animationOut="fadeOut" isVisible={true}>
-               <button onClick={clickSubmit} className="btn btn-primary">
-                  Submit
-               </button>
-            </Animated>
+            <button onClick={clickSubmit} className="btn btn-primary">
+                Submit
+            </button>
         </form>
     );
 
@@ -103,9 +100,7 @@ const Signin = () => {
         >
             {showLoading()}
             {showError()}
-            <Animated animationIn="fadeInDown" animationOut="fadeOut" isVisible={true}>
-              {signUpForm()}
-            </Animated>
+            {signUpForm()}
             {redirectUser()}
         </Layout>
     );
